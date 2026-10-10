@@ -1,0 +1,84 @@
+{{define "title"}}Salon · Puissance 4{{end}}
+
+{{define "content"}}
+<div class="lobby-head">
+  <div>
+    <h1>Salut {{.User.Username}} 👋</h1>
+    <p class="muted">Créez une partie et envoyez le lien à un ami, ou rejoignez une partie ouverte.</p>
+  </div>
+  <form method="post" action="/games">
+    <button type="submit" class="btn btn-primary">+ Nouvelle partie</button>
+  </form>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-value">{{.Stats.Played}}</span><span class="stat-label">Parties</span></div>
+  <div class="stat win"><span class="stat-value">{{.Stats.Wins}}</span><span class="stat-label">Victoires</span></div>
+  <div class="stat loss"><span class="stat-value">{{.Stats.Losses}}</span><span class="stat-label">Défaites</span></div>
+  <div class="stat"><span class="stat-value">{{.Stats.Draws}}</span><span class="stat-label">Nuls</span></div>
+</div>
+
+<div class="lobby-grid">
+  <section class="panel">
+    <h2>Mes parties en cours</h2>
+    {{if .Active}}
+    <ul class="list">
+      {{range .Active}}
+      <li>
+        <div>
+          {{if eq .Status "waiting"}}
+            <strong>Partie #{{.ID}}</strong>
+            <span class="muted">En attente d'un adversaire</span>
+          {{else}}
+            <strong>contre {{.Opponent}}</strong>
+            {{if .MyTurn}}<span class="badge badge-turn">À vous de jouer</span>{{else}}<span class="muted">Tour de l'adversaire</span>{{end}}
+          {{end}}
+        </div>
+        <a href="/games/{{.ID}}" class="btn btn-ghost btn-sm">Ouvrir</a>
+      </li>
+      {{end}}
+    </ul>
+    {{else}}
+    <p class="empty">Aucune partie en cours.</p>
+    {{end}}
+  </section>
+
+  <section class="panel">
+    <h2>Parties ouvertes</h2>
+    {{if .Open}}
+    <ul class="list">
+      {{range .Open}}
+      <li>
+        <div>
+          <strong>{{.Host}}</strong>
+          <span class="muted">cherche un adversaire</span>
+        </div>
+        <form method="post" action="/games/{{.ID}}/join">
+          <button type="submit" class="btn btn-primary btn-sm">Rejoindre</button>
+        </form>
+      </li>
+      {{end}}
+    </ul>
+    {{else}}
+    <p class="empty">Aucune partie ouverte pour l'instant. Créez-en une !</p>
+    {{end}}
+  </section>
+
+  <section class="panel">
+    <h2>Classement</h2>
+    {{if .Leaders}}
+    <ol class="leaderboard">
+      {{range $i, $l := .Leaders}}
+      <li{{if eq $l.Username $.User.Username}} class="me"{{end}}>
+        <span class="rank">{{inc $i}}</span>
+        <span class="name">{{$l.Username}}</span>
+        <span class="score">{{$l.Wins}} V <span class="muted">/ {{$l.Played}}</span></span>
+      </li>
+      {{end}}
+    </ol>
+    {{else}}
+    <p class="empty">Le classement apparaîtra après les premières parties.</p>
+    {{end}}
+  </section>
+</div>
+{{end}}
