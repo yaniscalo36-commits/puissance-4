@@ -20,12 +20,16 @@ type App struct {
 	limiter *loginLimiter
 }
 
-var pageNames = []string{"login", "register", "home"}
+var pageNames = []string{"login", "register", "lobby", "game"}
+
+var funcs = template.FuncMap{
+	"inc": func(i int) int { return i + 1 },
+}
 
 func loadPages() map[string]*template.Template {
 	pages := map[string]*template.Template{}
 	for _, name := range pageNames {
-		pages[name] = template.Must(template.ParseFS(assets, "templates/layout.html", "templates/"+name+".html"))
+		pages[name] = template.Must(template.New("").Funcs(funcs).ParseFS(assets, "templates/layout.html", "templates/"+name+".html"))
 	}
 	return pages
 }
@@ -84,9 +88,14 @@ func main() {
 	mux.HandleFunc("POST /login", app.handleLogin)
 	mux.HandleFunc("POST /logout", app.handleLogout)
 
-	mux.HandleFunc("GET /{$}", requireUser(func(w http.ResponseWriter, r *http.Request) {
-		app.render(w, r, "home", nil)
-	}))
+	mux.HandleFunc("GET /{$}", requireUser(app.handleLobby))
+	mux.HandleFunc("POST /games", requireUser(app.handleCreateGame))
+	mux.HandleFunc("GET /games/{id}", requireUser(app.handleGamePage))
+	mux.HandleFunc("POST /games/{id}/join", requireUser(app.handleJoinGame))
+	mux.HandleFunc("POST /games/{id}/forfeit", requireUser(app.handleForfeit))
+
+	mux.HandleFunc("GET /api/games/{id}", requireUser(app.handleGameState))
+	mux.HandleFunc("POST /api/games/{id}/move", requireUser(app.handleMove))
 
 	handler := securityHeaders(sameOrigin(app.withUser(mux)))
 

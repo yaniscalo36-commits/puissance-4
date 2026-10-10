@@ -34,6 +34,20 @@ var migrations = []string{
 		user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
 		expires_at INTEGER NOT NULL
 	)`,
+	`CREATE TABLE IF NOT EXISTS games (
+		id         INTEGER PRIMARY KEY AUTOINCREMENT,
+		player1_id INTEGER NOT NULL REFERENCES users(id),
+		player2_id INTEGER REFERENCES users(id),
+		board      TEXT    NOT NULL,
+		turn       INTEGER NOT NULL DEFAULT 1,
+		status     TEXT    NOT NULL DEFAULT 'waiting',
+		winner     INTEGER NOT NULL DEFAULT 0,
+		last_col   INTEGER NOT NULL DEFAULT -1,
+		moves      INTEGER NOT NULL DEFAULT 0,
+		created_at INTEGER NOT NULL,
+		updated_at INTEGER NOT NULL
+	)`,
+	`CREATE INDEX IF NOT EXISTS idx_games_status ON games(status)`,
 }
 
 func OpenStore(path string) (*Store, error) {
