@@ -1,0 +1,13 @@
+# Binaires
+*.exe
+puissance-4
+/bin/
+
+# Base de données locale
+*.db
+*.db-shm
+*.db-wal
+
+# Éditeurs
+.vscode/
+.idea/
