@@ -1,0 +1,34 @@
+{{define "layout"}}<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{block "title" .}}Puissance 4{{end}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="logo"><span class="dot p1"></span><span class="dot p2"></span> Puissance 4</a>
+    {{if .User}}
+    <div class="topbar-user">
+      <span>Connecté en tant que <strong>{{.User.Username}}</strong></span>
+      <form method="post" action="/logout">
+        <button type="submit" class="btn btn-ghost btn-sm">Déconnexion</button>
+      </form>
+    </div>
+    {{end}}
+  </header>
+
+  <main class="container">
+    {{block "content" .}}{{end}}
+  </main>
+
+  <footer class="footer">
+    Projet Go · <a href="https://github.com/yaniscalo36-commits" target="_blank" rel="noopener">Yanis Calonge</a>
+  </footer>
+  {{block "scripts" .}}{{end}}
+</body>
+</html>{{end}}
