@@ -1,0 +1,150 @@
+:root {
+  --bg: #07090f;
+  --bg-2: #0c111b;
+  --surface: #111827;
+  --surface-2: #162032;
+  --border: rgba(148, 163, 184, 0.14);
+  --border-strong: rgba(148, 163, 184, 0.28);
+  --text: #e6edf6;
+  --text-dim: #94a3b8;
+  --text-faint: #64748b;
+  --accent: #22d3a6;
+  --accent-glow: rgba(34, 211, 166, 0.35);
+  --p1: #f43f5e;
+  --p2: #facc15;
+  --board: #1d4ed8;
+  --danger: #f87171;
+  --radius: 14px;
+  --font: 'Space Grotesk', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(700px circle at 10% 0%, rgba(34, 211, 166, 0.07), transparent 60%),
+    radial-gradient(700px circle at 100% 100%, rgba(29, 78, 216, 0.12), transparent 60%),
+    var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- Barre du haut ---------- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px max(16px, calc((100% - 1100px) / 2));
+  border-bottom: 1px solid var(--border);
+  background: rgba(7, 9, 15, 0.7);
+  backdrop-filter: blur(10px);
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text);
+}
+.logo:hover { text-decoration: none; }
+.dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+.dot.p1 { background: var(--p1); }
+.dot.p2 { background: var(--p2); margin-right: 6px; }
+
+.topbar-user { display: flex; align-items: center; gap: 14px; font-size: 14px; color: var(--text-dim); }
+.topbar-user strong { color: var(--text); }
+
+.container {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 16px;
+}
+
+.footer {
+  text-align: center;
+  padding: 24px 16px;
+  font-size: 13px;
+  color: var(--text-faint);
+  border-top: 1px solid var(--border);
+}
+
+/* ---------- Boutons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s, color 0.15s;
+}
+.btn:hover { text-decoration: none; transform: translateY(-1px); }
+.btn-primary { background: var(--accent); color: #04110d; }
+.btn-primary:hover { box-shadow: 0 8px 24px -8px var(--accent-glow); }
+.btn-ghost { background: transparent; border-color: var(--border-strong); color: var(--text); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+.btn-sm { padding: 7px 14px; font-size: 13px; }
+
+/* ---------- Formulaires ---------- */
+.auth-card {
+  max-width: 420px;
+  margin: 20px auto;
+  padding: 36px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.auth-card h1 { font-size: 28px; margin-bottom: 4px; }
+
+.muted { color: var(--text-dim); }
+.small { font-size: 14px; margin-top: 20px; }
+
+.form { display: flex; flex-direction: column; gap: 18px; margin-top: 24px; }
+.form label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 500; }
+.form input {
+  font: inherit;
+  font-size: 15px;
+  padding: 11px 14px;
+  border-radius: 9px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-2);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.form input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(34, 211, 166, 0.15); }
+.hint { font-size: 12px; font-weight: 400; color: var(--text-faint); }
+
+.alert {
+  margin-top: 18px;
+  padding: 10px 14px;
+  border-radius: 9px;
+  font-size: 14px;
+  color: var(--danger);
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
+@media (max-width: 600px) {
+  .auth-card { padding: 28px 20px; }
+  .topbar-user span { display: none; }
+}

@@ -1,0 +1,24 @@
+{{define "title"}}Connexion · Puissance 4{{end}}
+
+{{define "content"}}
+<section class="auth-card">
+  <h1>Connexion</h1>
+  <p class="muted">Connectez-vous pour rejoindre une partie.</p>
+
+  {{if .Error}}<p class="alert">{{.Error}}</p>{{end}}
+
+  <form method="post" action="/login" class="form">
+    <label>
+      Pseudo
+      <input type="text" name="username" value="{{.Username}}" required autocomplete="username" autofocus>
+    </label>
+    <label>
+      Mot de passe
+      <input type="password" name="password" required autocomplete="current-password">
+    </label>
+    <button type="submit" class="btn btn-primary">Se connecter</button>
+  </form>
+
+  <p class="muted small">Pas encore de compte ? <a href="/register">Créer un compte</a></p>
+</section>
+{{end}}

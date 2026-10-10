@@ -1,0 +1,31 @@
+{{define "title"}}Inscription · Puissance 4{{end}}
+
+{{define "content"}}
+<section class="auth-card">
+  <h1>Créer un compte</h1>
+  <p class="muted">Un pseudo et un mot de passe suffisent.</p>
+
+  {{if .Error}}<p class="alert">{{.Error}}</p>{{end}}
+
+  <form method="post" action="/register" class="form">
+    <label>
+      Pseudo
+      <input type="text" name="username" value="{{.Username}}" required minlength="3" maxlength="20"
+             pattern="[a-zA-Z0-9_\-]+" autocomplete="username" autofocus>
+      <span class="hint">3 à 20 caractères : lettres, chiffres, _ ou -</span>
+    </label>
+    <label>
+      Mot de passe
+      <input type="password" name="password" required minlength="8" maxlength="72" autocomplete="new-password">
+      <span class="hint">8 caractères minimum</span>
+    </label>
+    <label>
+      Confirmer le mot de passe
+      <input type="password" name="confirm" required minlength="8" maxlength="72" autocomplete="new-password">
+    </label>
+    <button type="submit" class="btn btn-primary">Créer mon compte</button>
+  </form>
+
+  <p class="muted small">Déjà inscrit ? <a href="/login">Se connecter</a></p>
+</section>
+{{end}}
